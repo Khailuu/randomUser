@@ -9,6 +9,9 @@ const HomeComponent = () => {
   ); // State to filter multiple roles
   const [selectedGender, setSelectedGender] = useState<string>("All"); // State to filter gender
   const { data: users, isLoading } = useGetRandomUser(page);
+  const [startPage, setStartPage] = useState(1); // start page
+  const [endPage, setEndPage] = useState(10); // end page
+  const pagesPerBatch = 10; 
 
   const roles = ["All", "Dev", "BA", "QC", "PM"];
   const genders = ["All", "male", "female"];
@@ -40,6 +43,19 @@ const HomeComponent = () => {
 
       return updatedRoles;
     });
+  };
+
+  const handleNextPages = () => {
+    setStartPage((prev) => prev + pagesPerBatch);
+    setEndPage((prev) => prev + pagesPerBatch);
+    setPage(startPage + pagesPerBatch); // Set first page of paging display
+  };
+
+  const handlePreviousPages = () => {
+    const newStartPage = Math.max(1, startPage - pagesPerBatch);
+    setStartPage(newStartPage);
+    setEndPage(newStartPage + pagesPerBatch - 1);
+    setPage(newStartPage); // Set first page of paging display
   };
 
   // Apply filter
@@ -185,23 +201,61 @@ const HomeComponent = () => {
         )}
 
         {/* Pagination */}
-        <div style={{ marginTop: "20px" }}>
-          {[...Array(10)].map((_, index) => (
+        <div
+          style={{ marginTop: "20px", display: "flex", alignItems: "center" }}
+        >
+          {/* Nút "<" để quay lại */}
+          {startPage > 1 && (
             <button
-              key={index}
-              onClick={() => setPage(index + 1)}
+              onClick={handlePreviousPages}
               style={{
                 padding: "10px",
                 margin: "5px",
-                backgroundColor: page === index + 1 ? "#007bff" : "#fff",
-                color: page === index + 1 ? "#fff" : "#000",
+                backgroundColor: "#fff",
+                color: "#000",
                 border: "1px solid #ddd",
                 cursor: "pointer",
               }}
             >
-              {index + 1}
+              &lt;
             </button>
-          ))}
+          )}
+
+          {/* Hiển thị các số trang */}
+          {[...Array(endPage - startPage + 1)].map((_, index) => {
+            const pageNumber = startPage + index;
+            return (
+              <button
+                key={pageNumber}
+                onClick={() => setPage(pageNumber)}
+                style={{
+                  padding: "10px",
+                  margin: "5px",
+                  backgroundColor: page === pageNumber ? "#007bff" : "#fff",
+                  color: page === pageNumber ? "#fff" : "#000",
+                  border: "1px solid #ddd",
+                  cursor: "pointer",
+                }}
+              >
+                {pageNumber}
+              </button>
+            );
+          })}
+
+          {/* Nút ">" để tiến tới */}
+          <button
+            onClick={handleNextPages}
+            style={{
+              padding: "10px",
+              margin: "5px",
+              backgroundColor: "#fff",
+              color: "#000",
+              border: "1px solid #ddd",
+              cursor: "pointer",
+            }}
+          >
+            &gt;
+          </button>
         </div>
       </main>
     </div>
