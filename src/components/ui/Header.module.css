@@ -1,12 +1,12 @@
 .header {
   top: 0;
-  /* Thêm các thuộc tính CSS khác để làm đẹp cho header */
-  background-color: #f8f9fa; /* Ví dụ: màu nền */
-  padding: 10px; /* Ví dụ: khoảng cách bên trong */
-  text-align: center; /* Ví dụ: căn giữa nội dung */
+  /* Add other CSS properties to beautify the header */
+  background-color: #f8f9fa; /* Example: background color */
+  padding: 10px; /* Example: padding */
+  text-align: center; /* Example: center the content */
 }
 
 .logo {
-  width: 110px; /* Giữ nguyên kích thước logo */
-  /* Thêm các thuộc tính CSS khác nếu cần */
+  width: 110px; /* Keep the logo size */
+  /* Add other CSS properties if needed */
 } 
